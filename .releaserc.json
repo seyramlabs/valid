@@ -2,8 +2,19 @@
   "branches": ["master"],
   "tagFormat": "v${version}",
   "plugins": [
-    "@semantic-release/commit-analyzer",
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits"
+      }
+    ],
     "@semantic-release/release-notes-generator",
-    "@semantic-release/github"
+    [
+      "@semantic-release/github",
+      {
+        "successComment": false,
+        "failComment": false
+      }
+    ]
   ]
 }
