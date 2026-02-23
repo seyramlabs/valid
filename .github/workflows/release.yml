@@ -1,4 +1,5 @@
 name: Release Valid
+
 on:
   push:
     branches:
@@ -6,36 +7,41 @@ on:
       - dev
 
 jobs:
+
   run-tests:
-    uses: "./.github/workflows/tests.yml"
-  
+    uses: ./.github/workflows/tests.yml
+
   release:
-    if: ${{github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    if: github.ref == 'refs/heads/master'
     needs: run-tests
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
     steps:
+
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Release
+        with:
+          fetch-depth: 0
+
+      - name: Semantic Release
         uses: codfish/semantic-release-action@v3
         with:
           dry_run: false
           branches: |
-            [
-              '+([0-9])?(.{+([0-9]),x}).x',
-              'master'
-            ]
-          repository_url: https://github.com/seyramlabs/valid.git
+            ['master']
           tag_format: 'v${version}'
-          extends: '@semantic-release/apm-config'
-          additional_packages: |
-            ['@semantic-release/git']
           plugins: |
             [
-              '@semantic-release/commit-analyzer', 
+              '@semantic-release/commit-analyzer',
               '@semantic-release/release-notes-generator',
-              '@semantic-release/github', 
+              '@semantic-release/github',
               '@semantic-release/git'
             ]
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
