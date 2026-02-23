@@ -1,2 +1,2 @@
-set-url:
-	git remote set-url origin git@github-seyramlabs:seyramlabs/valid.git
+add-url:
+	git remote add origin git@github-seyramlabs:seyramlabs/valid.git
