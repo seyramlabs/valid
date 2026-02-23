@@ -32,16 +32,6 @@ jobs:
         uses: codfish/semantic-release-action@v3
         with:
           dry_run: false
-          branches: |
-            ['master']
-          tag_format: 'v${version}'
-          plugins: |
-            [
-              '@semantic-release/commit-analyzer',
-              '@semantic-release/release-notes-generator',
-              '@semantic-release/github',
-              '@semantic-release/git'
-            ]
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
