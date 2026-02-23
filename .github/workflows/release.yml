@@ -33,7 +33,12 @@ jobs:
           # Critical: We need a token that can bypass branch protection 
           # to push the go.sum changes back to master.
           token: ${{ secrets.GITHUB_TOKEN }}
-
+      
+      # Add this step here!
+      - name: Force Install Semantic Plugins
+        run: |
+          npm install conventional-changelog-conventionalcommits @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+          
       - name: Semantic Release
         uses: codfish/semantic-release-action@v5
         with:
