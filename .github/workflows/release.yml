@@ -27,23 +27,23 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          # Critical: We need a token that can bypass branch protection 
+          # to push the go.sum changes back to master.
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Semantic Release
-        uses: codfish/semantic-release-action@v3
+        uses: codfish/semantic-release-action@v5
         with:
           dry_run: false
           additional_packages: |
-            [
-              "semantic-release",
-              "@semantic-release/commit-analyzer",
-              "@semantic-release/release-notes-generator",
-              "@semantic-release/github",
-              "conventional-changelog-conventionalcommits"
-            ]
-
+            @semantic-release/commit-analyzer
+            @semantic-release/release-notes-generator
+            @semantic-release/github
+            @semantic-release/git
+            conventional-changelog-conventionalcommits
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
